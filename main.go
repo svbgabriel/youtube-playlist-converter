@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strconv"
 	"strings"
 	"youtube-playlist-converter/config"
 )
@@ -65,9 +66,22 @@ func main() {
 	fmt.Printf("The playlist %s was created", title)
 
 	for _, item := range titleList {
+		fmt.Printf("Looking for a song with title \"%s\"\n", item)
 		tracks, _ := searchTrack(item, token)
-		for _, t := range tracks {
-			_ = addItemPlaylist(playlistID, t.ID, token)
+		if len(tracks) == 0 {
+			fmt.Printf("Song with title \"%s\" not found\n", item)
+		} else if len(tracks) == 1 {
+			fmt.Printf("Adding song \"%s\"\n", tracks[0].Name)
+			_ = addItemPlaylist(playlistID, tracks[0].ID, token)
+		} else {
+			fmt.Printf("%d songs found, choose below:\n", len(tracks))
+			for i, t := range tracks {
+				fmt.Printf("[%d] %s\n", i+1, t.Name)
+			}
+			positionStr, _ := in.ReadString('\n')
+			positionStr = strings.TrimSpace(positionStr)
+			position, _ := strconv.Atoi(positionStr)
+			_ = addItemPlaylist(playlistID, tracks[position-1].ID, token)
 		}
 	}
 }

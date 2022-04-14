@@ -74,7 +74,7 @@ func searchTrack(title string, token *oauth2.Token) ([]spotify.FullTrack, error)
 
 	client := spotify.New(httpClient)
 
-	results, err := client.Search(ctx, title, spotify.SearchTypeTrack, spotify.Limit(1))
+	results, err := client.Search(ctx, title, spotify.SearchTypeTrack, spotify.Limit(20))
 	if err != nil {
 		return nil, err
 	}
