@@ -63,7 +63,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Printf("The playlist %s was created", title)
+	fmt.Printf("The playlist %s was created\n", title)
 
 	for _, item := range titleList {
 		fmt.Printf("Looking for a song with title \"%s\"\n", item)
@@ -71,12 +71,13 @@ func main() {
 		if len(tracks) == 0 {
 			fmt.Printf("Song with title \"%s\" not found\n", item)
 		} else if len(tracks) == 1 {
-			fmt.Printf("Adding song \"%s\"\n", tracks[0].Name)
+			fmt.Printf("Adding the song \"%s\"\n", tracks[0].Name)
 			_ = addItemPlaylist(playlistID, tracks[0].ID, token)
 		} else {
 			fmt.Printf("%d songs found, choose below:\n", len(tracks))
+			fmt.Println("\tTitle\tAlbum\tArtist")
 			for i, t := range tracks {
-				fmt.Printf("[%d] %s\n", i+1, t.Name)
+				fmt.Printf("[%d] \t%s\t%s\t%s\n", i+1, t.Name, t.Album.Name, getArtistsNames(t.Artists))
 			}
 			positionStr, _ := in.ReadString('\n')
 			positionStr = strings.TrimSpace(positionStr)

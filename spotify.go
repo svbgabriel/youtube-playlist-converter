@@ -9,6 +9,7 @@ import (
 	"golang.org/x/oauth2"
 	"log"
 	"net/http"
+	"strings"
 	"youtube-playlist-converter/config"
 )
 
@@ -128,4 +129,16 @@ func addItemPlaylist(playlistID spotify.ID, trackID spotify.ID, token *oauth2.To
 	_, err := client.AddTracksToPlaylist(ctx, playlistID, trackID)
 
 	return err
+}
+
+func getArtistsNames(artists []spotify.SimpleArtist) string {
+	artistsNames := make([]string, 0)
+
+	for _, artist := range artists {
+		artistsNames = append(artistsNames, artist.Name)
+	}
+
+	artistsNamesJoined := strings.Join(artistsNames, ",")
+
+	return artistsNamesJoined
 }
