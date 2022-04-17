@@ -77,12 +77,22 @@ func main() {
 			fmt.Printf("%d songs found, choose below:\n", len(tracks))
 			fmt.Println("\tTitle\tAlbum\tArtist")
 			for i, t := range tracks {
-				fmt.Printf("[%d] \t%s\t%s\t%s\n", i+1, t.Name, t.Album.Name, getArtistsNames(t.Artists))
+				if i == 0 {
+					fmt.Printf("[%d] \t%s\t%s\t%s\n", i+1, t.Name, t.Album.Name, getArtistsNames(t.Artists))
+				} else {
+					fmt.Printf("%d \t%s\t%s\t%s\n", i+1, t.Name, t.Album.Name, getArtistsNames(t.Artists))
+				}
 			}
 			positionStr, _ := in.ReadString('\n')
 			positionStr = strings.TrimSpace(positionStr)
-			position, _ := strconv.Atoi(positionStr)
-			_ = addItemPlaylist(playlistID, tracks[position-1].ID, token)
+			position, err := strconv.Atoi(positionStr)
+			if err != nil {
+				position = 0
+			} else {
+				position = position - 1
+			}
+			fmt.Printf("Adding the song \"%s\"\n", tracks[position].Name)
+			_ = addItemPlaylist(playlistID, tracks[position].ID, token)
 		}
 	}
 }
