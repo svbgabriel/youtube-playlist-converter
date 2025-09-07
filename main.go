@@ -10,6 +10,8 @@ import (
 	"youtube-playlist-converter/config"
 )
 
+const separator = "====="
+
 func main() {
 	args := os.Args[1:]
 	if len(args) == 0 {
@@ -94,5 +96,6 @@ func main() {
 			fmt.Printf("Adding the song \"%s\"\n", tracks[position].Name)
 			_ = addItemPlaylist(playlistID, tracks[position].ID, token)
 		}
+		fmt.Println(separator)
 	}
 }
